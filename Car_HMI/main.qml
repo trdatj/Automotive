@@ -50,14 +50,28 @@ Window {
 
             //top  bar
             Speedometer{
-                width: 595
+                id: topbarID
+                width: 645
                 height: 80
                 anchors.top: parent.top
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 95
-                meterImage: "qrc:/img/Top Bar.png"
+                anchors.topMargin: 195
+                meterImage: "qrc:/img/bottom.png"
+                transform: Scale {
+                    xScale: 1
+                    yScale: -1
+                }
             }
 
+            FunctionIcon{
+                id: iconLogo
+                width: 80
+                height: 80
+                anchors.top: parent.top
+                anchors.horizontalCenter: topbarID.horizontalCenter
+                anchors.topMargin: 95
+                iconImageOff: "qrc:/icons/logo.svg"
+            }
 
 
             //xi nhan trái
@@ -93,28 +107,28 @@ Window {
             //đèn cos
             FunctionIcon{
                 id: iconLightCosIcon
-                x: 730
+                x: 705
                 y: 113
                 width: 40
                 height: 40
                 opacity: 0.9
-                //iconImage: "qrc:/icons/icons-right/mdi_car-light-high.svg"
-                iconImageOff: "qrc:/icons/icons-right/Low_beam_headlights_white.svg"
-                iconImageOn: "qrc:/icons/icons-right-checked/mdi_car-light-dimmed-checked.svg"
+
+                iconImageOff: "qrc:/icons/icons-left/light_cos.svg"
+                iconImageOn: "qrc:/icons/icons-left-checked/light_cos_checked.svg"
                 checked: false
             }
 
             //đèn pha
             FunctionIcon{
                 id: iconLightPhaIcon
-                x: 800
+                x: 775
                 y: 110
                 width: 45
                 height: 45
                 opacity: 0.9
-                //iconImage: "qrc:/icons/icons-right/mdi_car-light-high.svg"
-                iconImageOff: "qrc:/icons/icons-right/mdi_car-light-high.svg"
-                iconImageOn: "qrc:/icons/icons-right-checked/mdi_car-light-high-checked.svg"
+
+                iconImageOff: "qrc:/icons/icons-left/light_high.svg"
+                iconImageOn: "qrc:/icons/icons-left-checked/mdi_car-light-high-checked.svg"
                 checked: false
             }
 
@@ -126,9 +140,9 @@ Window {
                 width: 45
                 height: 45
                 opacity: 0.9
-                //iconImage: "qrc:/icons/icons-right/mdi_car-light-high.svg"
-                iconImageOff: "qrc:/icons/icons-right/hazard-lights.svg"
-                iconImageOn: "qrc:/icons/icons-right-checked/output-onlinepngtools.png"
+
+                iconImageOff: "qrc:/icons/icons-left/hazard_light.svg"
+                iconImageOn: "qrc:/icons/icons-left-checked/hazard_light_checked.png"
                 checked: false
 
                 MouseArea{
@@ -153,6 +167,19 @@ Window {
                         }
                     }
                 }
+            }
+            FunctionIcon{
+                id: iconTempOil
+                x: 1170
+                y: 110
+                width: 45
+                height: 45
+                opacity: 0.9
+
+                iconImageOff: "qrc:/icons/icons-right/temp_oil.svg"
+                iconImageOn: "qrc:/icons/icons-right-checked/temp_oil_checked.svg"
+                checked: false
+
             }
         }
     }
@@ -235,7 +262,7 @@ Window {
                 }
                 break;
 
-            case "COS":
+            case "DEN_COS":
                 if (status === "ON") {
                     console.log("Đèn cos bật");
                     iconLightCosIcon.checked = true;
@@ -245,7 +272,7 @@ Window {
                 }
                 break;
 
-            case "PHA":
+            case "DEN_PHA":
                 if (status === "ON") {
                     console.log("Đèn pha bật");
                     iconLightPhaIcon.checked = true;
@@ -257,10 +284,16 @@ Window {
             case "HAZARD":
                 if (status === "ON"){
                     console.log("Đèn hazard bật");
-                    iconHazardIcon.checked = true;
+                    turnRightIcon.blinking = true;
+                    turnRightIcon.checked = true;
+                    turnLeftIcon.blinking = true;
+                    turnLeftIcon.checked = true;
                 } else {
                     console.log("Đèn hazard tắt");
-                    iconHazardIcon.checked = false;
+                    turnRightIcon.blinking = false;
+                    turnRightIcon.checked = false;
+                    turnLeftIcon.blinking = false;
+                    turnLeftIcon.checked = false;
                 }
 
             default:
