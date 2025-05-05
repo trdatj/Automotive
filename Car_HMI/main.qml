@@ -21,31 +21,172 @@ Window {
             source: "qrc:/img/Panel.png"
             anchors.fill: parent
             fillMode: Image.PreserveAspectFit
+            property int currentAngle: 150
+
 
             //Mặt đồng hồ trái
             Speedometer {
+                id: speedometerLeft
                 width: 470
                 height: 470
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 110
+                anchors.leftMargin: 180
 
                 meterImage: "qrc:/img/speedImg.png"
                 indicatorImage: "qrc:/img/Indicator.png"
-                angle: 147
+                angle: 148
             }
+
+            //Button tăng tốc độ đồng hồ trái
+            Rectangle{
+                id: speedUpButton
+                x: 275
+                y: 800
+                width: 120
+                height: 50
+                color: mouseAreaSpeedUp.containsPress ? "#4CAF50" : "#8BC34A"
+                radius: 5
+                border.color: "#388E3C"
+                border.width: 2
+
+                Text {
+                    text: "Tăng tốc độ"
+                    anchors.centerIn: parent
+                    font.pixelSize: 16
+                    color: "white"
+                }
+
+                MouseArea {
+                    id: mouseAreaSpeedUp
+                    anchors.fill: parent
+                    onClicked: {
+                        var newAngle = speedometerLeft.angle + 10;
+                        speedometerLeft.angle = Math.min(newAngle, 390);
+                    }
+                }
+            }
+
+            Rectangle {
+                id: speedDownButton
+                x: 425
+                y: 800
+                width: 120
+                height: 50
+                color: mouseAreaSpeedDown.containsPress ? "#F44336" : "#FF5722"
+                radius: 5
+                border.color: "#D32F2F"
+                border.width: 2
+
+                Text {
+                    text: "Giảm tốc độ"
+                    anchors.centerIn: parent
+                    font.pixelSize: 16
+                    color: "white"
+                }
+
+                MouseArea {
+                    id: mouseAreaSpeedDown
+                    anchors.fill: parent
+                    onClicked: {
+                        var newAngle = speedometerLeft.angle - 10;
+                        speedometerLeft.angle = Math.max(newAngle, 148);
+                    }
+                }
+            }
+
+            //Cảnh báo khi vượt quá tốc độ
+            Image{
+                id: speedWarningIcon
+                source: {
+                    if (speedometerLeft.angle >= 148 && speedometerLeft.angle <= 230)
+                        return "qrc:/icons/warning_faded.svg";
+                    else if (speedometerLeft.angle >= 230 && speedometerLeft.angle <= 330)
+                        return "qrc:/icons/warning_orange.svg";
+                    else if (speedometerLeft.angle >= 330)
+                        return "qrc:/icons/warning_red.svg";
+                    else
+                        return;
+                }
+                width: 60
+                height: 60
+                anchors.top: topbarID.top
+                anchors.topMargin: 20
+                anchors.horizontalCenter: topbarID.horizontalCenter
+                smooth: true
+                fillMode: Image.PreserveAspectFit
+            }
+
 
             //Mặt đồng hồ phải
             Speedometer {
+                id: speedometerRight
                 width: 470
                 height: 470
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                anchors.rightMargin: 110
+                anchors.rightMargin: 180
 
                 meterImage: "qrc:/img/tachoImg.png"
                 indicatorImage: "qrc:/img/Indicator.png"
                 angle: 150
+            }
+
+            //Button tăng vòng tour máy
+            Rectangle{
+                id: speedUpButton2
+                x: 1375
+                y: 800
+                width: 120
+                height: 50
+                color: mouseAreaSpeedUp2.containsPress ? "#4CAF50" : "#8BC34A"
+                radius: 5
+                border.color: "#388E3C"
+                border.width: 2
+
+                Text {
+                    text: "Tăng tốc độ"
+                    anchors.centerIn: parent
+                    font.pixelSize: 16
+                    color: "white"
+                }
+
+                MouseArea {
+                    id: mouseAreaSpeedUp2
+                    anchors.fill: parent
+                    onClicked: {
+                        var newAngle = speedometerRight.angle + 10;
+                        speedometerRight.angle = Math.min(newAngle, 390);
+                    }
+                }
+            }
+
+            Rectangle {
+                id: speedDownButton2
+                x: 1525
+                y: 800
+                width: 120
+                height: 50
+                color: mouseAreaSpeedDown2.containsPress ? "#F44336" : "#FF5722"
+                radius: 5
+                border.color: "#D32F2F"
+                border.width: 2
+
+                Text {
+                    text: "Giảm tốc độ"
+                    anchors.centerIn: parent
+                    font.pixelSize: 16
+                    color: "white"
+                }
+
+                MouseArea {
+                    id: mouseAreaSpeedDown2
+                    anchors.fill: parent
+                    onClicked: {
+                        var newAngle = speedometerRight.angle - 10;
+                        speedometerRight.angle = Math.max(newAngle, 148);
+                    }
+                }
             }
 
             //top  bar
@@ -63,6 +204,7 @@ Window {
                 }
             }
 
+            //logo
             FunctionIcon{
                 id: iconLogo
                 width: 80
@@ -168,6 +310,8 @@ Window {
                     }
                 }
             }
+
+            //nhiệt độ nước mát
             FunctionIcon{
                 id: iconTempOil
                 x: 1170
@@ -181,6 +325,22 @@ Window {
                 checked: false
 
             }
+
+            //Nhiệt độ khoang lái
+            TempIcon {
+                id: cabinTempIcon
+                width: 45
+                height: 45
+                opacity: 0.9
+                x: 1020
+                y: 110
+
+                status: "DANGEROUS"
+                normalSource: "qrc:/icons/icons-right/temp_cabin.svg"
+                warningSource: "qrc:/icons/icons-right-checked/temp_cabin_warning.svg"
+                dangerousSource: "qrc:/icons/icons-right-checked/temp_cabin_danger.svg"
+            }
+
         }
     }
 
@@ -222,11 +382,35 @@ Window {
             console.log("SAU TRIM:", JSON.stringify(cleanMsg));
 
             // Tách dữ liệu
-            const parts = cleanMsg.split(":");
-            if (parts.length !== 2) {
-                console.log("MESSAGE KHÔNG HỢP LỆ:", cleanMsg);
+            // const parts = cleanMsg.split(":");
+            // if (parts.length !== 2) {
+            //     console.log("MESSAGE KHÔNG HỢP LỆ:", cleanMsg);
+            //     return;
+            // }
+
+            if (cleanMsg.startsWith("TEMP: ")) {
+                const tempValue = parseFloat(cleanMsg.substring(6)); // Bỏ qua "TEMP: "
+                if (!isNaN(tempValue)) {
+                    console.log("Nhận nhiệt độ số:", tempValue);
+                    cabinTempIcon.temperature = tempValue;
+
+                    // Tự động cập nhật trạng thái dựa trên nhiệt độ
+                    if (tempValue >= 45) {
+                        cabinTempIcon.status = "DANGEROUS";
+                    } else if (tempValue >= 35) {
+                        cabinTempIcon.status = "WARNING";
+                    } else {
+                        cabinTempIcon.status = "NORMAL";
+                    }
+                }
                 return;
             }
+
+            const parts = cleanMsg.split(":");
+                if (parts.length !== 2) {
+                    console.log("MESSAGE KHÔNG HỢP LỆ:", cleanMsg);
+                    return;
+                }
 
             const device = parts[0];
             const status = parts[1];
@@ -248,7 +432,7 @@ Window {
                     turnLeftIcon.blinking = false;
                     turnLeftIcon.checked = false;
                 }
-                break;
+            break;
 
             case "TURN_RIGHT":
                 if (status === "ON") {
@@ -260,7 +444,7 @@ Window {
                     turnRightIcon.blinking = false;
                     turnRightIcon.checked = false;
                 }
-                break;
+            break;
 
             case "DEN_COS":
                 if (status === "ON") {
@@ -270,7 +454,7 @@ Window {
                     console.log("Đèn cos tắt");
                     iconLightCosIcon.checked = false;
                 }
-                break;
+            break;
 
             case "DEN_PHA":
                 if (status === "ON") {
@@ -280,7 +464,8 @@ Window {
                     console.log("Đèn pha tắt");
                     iconLightPhaIcon.checked = false;
                 }
-                break;
+            break;
+
             case "HAZARD":
                 if (status === "ON"){
                     console.log("Đèn hazard bật");
@@ -295,6 +480,26 @@ Window {
                     turnLeftIcon.blinking = false;
                     turnLeftIcon.checked = false;
                 }
+            break;
+
+            case "TEMP_OIL":
+
+
+            break;
+
+            case "TEMP_CABIN":
+                cabinTempIcon.status = status;
+                console.log("Cập nhật trạng thái từ TEMP_CABIN:", status);
+
+                if (status === "WARNING") {
+                    console.log("Cảnh báo: Nhiệt độ khoang xe cao!");
+                } else if (status === "DANGEROUS") {
+                    console.log("CẢNH BÁO NGUY HIỂM: Nhiệt độ khoang xe quá cao!");
+                } else {
+                    console.log("Nhiệt độ khoang xe bình thường.");
+                }
+                break;
+
 
             default:
                 console.log("Thiết bị không hợp lệ:", device);
@@ -302,7 +507,5 @@ Window {
             }
         }
     }
-
-
 
 }

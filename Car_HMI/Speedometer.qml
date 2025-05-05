@@ -7,7 +7,7 @@ Item {
 
     property string meterImage: "" //url đến ảnh mặt đồng hồ
     property string indicatorImage: "" //url đến ảnh kim
-    property int angle: 150 // góc xoay kim
+    property int angle: 148 // góc xoay kim
 
     //Mặt đồng hồ
     Image {
@@ -24,13 +24,21 @@ Item {
         source: speedometer.indicatorImage
         width: 182
         height: 20
-        anchors.centerIn: parent
+        x: parent.width / 2 - rotationTransform.origin.x
+        y: parent.height / 2 - rotationTransform.origin.y
 
         transform: Rotation {
             id: rotationTransform
-            origin.x: indicatorID.width * 0.29  // hoặc 0.15 tùy vị trí gốc kim
-            origin.y: indicatorID.height / 2 + 10
+            origin.x: 15
+            origin.y: indicatorID.height / 2
             angle: speedometer.angle
+
+            Behavior on angle {
+               NumberAnimation {
+                   duration: 300
+                   easing.type: Easing.InOutQuad
+               }
+           }
         }
     }
 }

@@ -27,6 +27,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    PopUp.qml \
+    TempIcon.qml \
     img/Panel.png
 
 HEADERS += \
