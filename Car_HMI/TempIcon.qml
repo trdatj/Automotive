@@ -34,7 +34,7 @@ Item {
         text: tempIcon.temperature.toFixed(1) + tempIcon.temperatureUnit
         anchors {
             left: iconImage.right  // Neo bên phải icon
-            leftMargin: 5         // Khoảng cách với icon
+            leftMargin: 15         // Khoảng cách với icon
             verticalCenter: parent.verticalCenter
         }
         color: {
