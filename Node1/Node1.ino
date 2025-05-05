@@ -196,4 +196,41 @@ void loop() {
     }
     lastPhaBtnState = phaBtnState;
   }
+
+  if (Serial.available()) {
+    String cmd = Serial.readStringUntil('\n');
+    cmd.trim();  // loại bỏ ký tự '\r' hoặc khoảng trắng thừa
+
+    if (cmd == "TURN_LEFT:ON") {
+      blinkingLeft = true;
+      blinkingRight = false;
+    } else if (cmd == "TURN_LEFT:OFF") {
+      blinkingLeft = false;
+    } else if (cmd == "TURN_RIGHT:ON") {
+      blinkingRight = true;
+      blinkingLeft = false;
+    } else if (cmd == "TURN_RIGHT:OFF") {
+      blinkingRight = false;
+    } else if (cmd == "HAZARD:ON") {
+      hazardActive = true;
+    } else if (cmd == "HAZARD:OFF") {
+      hazardActive = false;
+    } else if (cmd == "DEN_COS:ON") {
+      cosLedState = true;
+      digitalWrite(denCos_Led, HIGH);
+    } else if (cmd == "DEN_COS:OFF") {
+      cosLedState = false;
+      digitalWrite(denCos_Led, LOW);
+    } else if (cmd == "DEN_PHA:ON") {
+      phaLedState = true;
+      digitalWrite(denPha_Led, HIGH);
+    } else if (cmd == "DEN_PHA:OFF") {
+      phaLedState = false;
+      digitalWrite(denPha_Led, LOW);
+    } else if (cmd == "")
+
+    // Debug
+    //Serial.print("Received from PC: ");
+    Serial.println(cmd);
+  }
 }
