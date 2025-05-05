@@ -229,7 +229,6 @@ Window {
                 iconImageOff: "qrc:/icons/logo.svg"
             }
 
-
             //xi nhan trái
             FunctionIcon{
                 id: turnLeftIcon
@@ -239,10 +238,32 @@ Window {
                 anchors.left: parent.left
                 anchors.leftMargin: 30
 
-                //iconImage: "qrc:/icons/icons-left/icon-park-solid_left-two.svg"
                 iconImageOff: "qrc:/icons/icons-left/icon-park-solid_left-two.svg"
                 iconImageOn: "qrc:/icons/icons-left-checked/icon-park-solid_right-two.svg"
                 checked: false
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        turnLeftIcon.checked = !turnLeftIcon.checked
+
+                        if (turnLeftIcon.checked){
+                            console.log("Xi nhan trái bật");
+                            turnLeftIcon.checked = true
+                            turnLeftIcon.blinking = true
+                            turnRightIcon.checked = false
+                            turnRightIcon.blinking = false
+                            serialManager.sendData("TURN_LEFT:ON")
+                        } else {
+                            console.log("Xi nhan trái tắt");
+                            turnLeftIcon.checked = false
+                            turnLeftIcon.blinking = false
+                            turnRightIcon.checked = false
+                            turnRightIcon.blinking = false
+                            serialManager.sendData("TURN_LEFT:OFF")
+                        }
+                    }
+                }
             }
 
             //xi nhan phải
@@ -254,10 +275,30 @@ Window {
                 anchors.right: parent.right
                 anchors.rightMargin: 30
 
-                //iconImage: "qrc:/icons/icons-right/icon-park-solid_right-two.svg"
                 iconImageOff: "qrc:/icons/icons-right/icon-park-solid_right-two.svg"
                 iconImageOn: "qrc:/icons/icons-right-checked/icon-park-solid_right-two.svg"
                 checked: false
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        turnRightIcon.checked = !turnRightIcon.checked
+
+                        if (turnRightIcon.checked){
+                            console.log("Xi nhan phải bật");
+                            turnRightIcon.checked = true
+                            turnRightIcon.blinking = true
+                            turnLeftIcon.checked = false
+                            turnLeftIcon.blinking = false
+                            serialManager.sendData("TURN_RIGHT:ON")
+                        } else {
+                            console.log("Xi nhan phải tắt");
+                            turnRightIcon.checked = false
+                            turnRightIcon.blinking = false
+                            serialManager.sendData("TURN_RIGHT:OFF")
+                        }
+                    }
+                }
             }
 
             //đèn cos
@@ -272,6 +313,23 @@ Window {
                 iconImageOff: "qrc:/icons/icons-left/light_cos.svg"
                 iconImageOn: "qrc:/icons/icons-left-checked/light_cos_checked.svg"
                 checked: false
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        iconLightCosIcon.checked = !iconLightCosIcon.checked
+
+                        if (iconLightCosIcon.checked){
+                            console.log("Đèn cos bật");
+                            iconLightCosIcon.checked = true
+                            serialManager.sendData("DEN_COS:ON")
+                        } else {
+                            console.log("Đèn cos tắt");
+                            iconLightCosIcon.checked = false
+                            serialManager.sendData("DEN_COS:OFF")
+                        }
+                    }
+                }
             }
 
             //đèn pha
@@ -286,6 +344,23 @@ Window {
                 iconImageOff: "qrc:/icons/icons-left/light_high.svg"
                 iconImageOn: "qrc:/icons/icons-left-checked/mdi_car-light-high-checked.svg"
                 checked: false
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        iconLightPhaIcon.checked = !iconLightPhaIcon.checked
+
+                        if (iconLightPhaIcon.checked){
+                            console.log("Đèn pha bật");
+                            iconLightPhaIcon.checked = true
+                            serialManager.sendData("DEN_PHA:ON")
+                        } else {
+                            console.log("Đèn pha tắt");
+                            iconLightPhaIcon.checked = false
+                            serialManager.sendData("DEN_PHA:OFF")
+                        }
+                    }
+                }
             }
 
             //đèn hazard
@@ -301,6 +376,9 @@ Window {
                 iconImageOn: "qrc:/icons/icons-left-checked/hazard_light_checked.png"
                 checked: false
 
+                property bool wasLeftBlinkingBeforeHazard: false
+                property bool wasRightBlinkingBeforeHazard: false
+
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
@@ -310,16 +388,48 @@ Window {
                             console.log("Hazard bật");
                             hazardBlinkTimer.start()
 
-                            // Khi bật Hazard, tắt luôn các chế độ xi nhan trái/phải đang chạy riêng lẻ
-                            turnLeftIcon.blinking = false
-                            turnRightIcon.blinking = false
-                            blinkTimerLeft.stop()
-                            blinkTimerRight.stop()
+                            iconHazardIcon.wasLeftBlinkingBeforeHazard = turnLeftIcon.blinking
+                            iconHazardIcon.wasRightBlinkingBeforeHazard = turnRightIcon.blinking
+
+                            //serialManager.sendData("HAZARD:ON")
+                            if (iconHazardIcon.wasLeftBlinkingBeforeHazard){
+                                serialManager.sendData("TURN_LEFT:OFF")
+                                turnLeftIcon.blinking = false
+                                turnLeftIcon.checked = false
+                                blinkTimerLeft.stop()
+                            }
+                            if (iconHazardIcon.wasRightBlinkingBeforeHazard){
+                                serialManager.sendData("TURN_RIGHT:OFF")
+                                turnRightIcon.blinking = false
+                                turnRightIcon.checked = false
+                                blinkTimerRight.stop()
+                            }
+                            serialManager.sendData("HAZARD:ON")
                         } else {
                             console.log("Hazard tắt");
                             hazardBlinkTimer.stop()
-                            turnLeftIcon.checked = false
+                            serialManager.sendData("HAZARD:OFF")
+                            blinkTimerLeft.stop()
+                            blinkTimerRight.stop()
+                            turnRightIcon.blinking = false
                             turnRightIcon.checked = false
+                            turnLeftIcon.blinking = false
+                            turnLeftIcon.checked = false
+
+                            if (iconHazardIcon.wasLeftBlinkingBeforeHazard) {
+                                turnLeftIcon.blinking = true
+                                turnLeftIcon.checked = true
+                                blinkTimerLeft.start()
+                                serialManager.sendData("TURN_LEFT:ON")
+                            } if (iconHazardIcon.wasRightBlinkingBeforeHazard) {
+                                turnRightIcon.blinking = true
+                                turnRightIcon.checked = true
+                                blinkTimerRight.start()
+                                serialManager.sendData("TURN_RIGHT:ON")
+                            }
+
+                            iconHazardIcon.wasLeftBlinkingBeforeHazard = false
+                            iconHazardIcon.wasRightBlinkingBeforeHazard = false
                         }
                     }
                 }
@@ -357,6 +467,10 @@ Window {
                 normalSource: "qrc:/icons/icons-right/temp_cabin.svg"
                 warningSource: "qrc:/icons/icons-right-checked/temp_cabin_warning.svg"
                 dangerousSource: "qrc:/icons/icons-right-checked/temp_cabin_danger.svg"
+
+                Behavior on opacity {
+                    NumberAnimation { duration: 300 }
+                }
             }
 
             //đèn báo nguồn điện
@@ -406,7 +520,7 @@ Window {
 
 
     Connections {
-        target: serialReader
+        target: serialManager
 
         function onSignalChanged(message) {
             console.log("NHẬN SIGNAL RAW:", JSON.stringify(message));
