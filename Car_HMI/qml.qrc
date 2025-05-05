@@ -23,5 +23,14 @@
         <file>img/bottom.png</file>
         <file>icons/logo.svg</file>
         <file>icons/bottom.png</file>
+        <file>TempIcon.qml</file>
+        <file>icons/icons-right/temp_cabin.svg</file>
+        <file>icons/icons-right-checked/temp_cabin_danger.svg</file>
+        <file>icons/icons-right-checked/temp_cabin_warning.svg</file>
+        <file>icons/left.svg</file>
+        <file>icons/Vector 1.svg</file>
+        <file>icons/warning_faded.svg</file>
+        <file>icons/warning_orange.svg</file>
+        <file>icons/warning_red.svg</file>
     </qresource>
 </RCC>
