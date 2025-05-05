@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>img/Panel.png</file>
+        <file>Speedometer.qml</file>
+        <file>img/Indicator.png</file>
+        <file>img/speedImg.png</file>
+        <file>img/tachoImg.png</file>
+        <file>FunctionIcon.qml</file>
+        <file>icons/icons-left/icon-park-solid_left-two.svg</file>
+        <file>icons/icons-left-checked/icon-park-solid_right-two.svg</file>
+        <file>icons/icons-right/icon-park-solid_right-two.svg</file>
+        <file>icons/icons-right-checked/icon-park-solid_right-two.svg</file>
+        <file>img/Top Bar.png</file>
+        <file>icons/icons-right/temp_oil.svg</file>
+        <file>icons/icons-right-checked/temp_oil_checked.svg</file>
+        <file>icons/icons-left-checked/hazard_light_checked.png</file>
+        <file>icons/icons-left-checked/mdi_car-light-high-checked.svg</file>
+        <file>icons/icons-left/light_high.svg</file>
+        <file>icons/icons-left/hazard_light.svg</file>
+        <file>icons/icons-left/light_cos.svg</file>
+        <file>icons/icons-left-checked/light_cos_checked.svg</file>
+        <file>img/bottom.png</file>
+        <file>icons/logo.svg</file>
+        <file>icons/bottom.png</file>
+        <file>TempIcon.qml</file>
+        <file>icons/icons-right/temp_cabin.svg</file>
+        <file>icons/icons-right-checked/temp_cabin_danger.svg</file>
+        <file>icons/icons-right-checked/temp_cabin_warning.svg</file>
+        <file>icons/left.svg</file>
+        <file>icons/Vector 1.svg</file>
+        <file>icons/warning_faded.svg</file>
+        <file>icons/warning_orange.svg</file>
+        <file>icons/warning_red.svg</file>
+    </qresource>
+</RCC>
