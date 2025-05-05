@@ -23,6 +23,17 @@ Window {
             fillMode: Image.PreserveAspectFit
             property int currentAngle: 150
 
+            Image{
+                id: r34
+                source: "qrc:/img/nissan_skyline_gt-r_18337-removebg-preview.png"
+                width: 725
+                height: 339
+                //anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.centerIn: parent
+                //anchors.topMargin: 200
+            }
+
 
             //Mặt đồng hồ trái
             Speedometer {
@@ -31,7 +42,7 @@ Window {
                 height: 470
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 180
+                anchors.leftMargin: 150
 
                 meterImage: "qrc:/img/speedImg.png"
                 indicatorImage: "qrc:/img/Indicator.png"
@@ -110,9 +121,12 @@ Window {
                 }
                 width: 60
                 height: 60
-                anchors.top: topbarID.top
-                anchors.topMargin: 20
-                anchors.horizontalCenter: topbarID.horizontalCenter
+                // anchors.top: topbarID.top
+                // anchors.topMargin: 20
+                // anchors.horizontalCenter: topbarID.horizontalCenter
+                y: 265
+                anchors.right: background.right
+                anchors.rightMargin: 160
                 smooth: true
                 fillMode: Image.PreserveAspectFit
             }
@@ -125,7 +139,7 @@ Window {
                 height: 470
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                anchors.rightMargin: 180
+                anchors.rightMargin: 150
 
                 meterImage: "qrc:/img/tachoImg.png"
                 indicatorImage: "qrc:/img/Indicator.png"
@@ -249,7 +263,7 @@ Window {
             //đèn cos
             FunctionIcon{
                 id: iconLightCosIcon
-                x: 95
+                x: 75
                 y: 375
                 width: 50
                 height: 50
@@ -263,7 +277,7 @@ Window {
             //đèn pha
             FunctionIcon{
                 id: iconLightPhaIcon
-                x: 165
+                x: 145
                 y: 305
                 width: 50
                 height: 50
@@ -277,7 +291,7 @@ Window {
             //đèn hazard
             FunctionIcon{
                 id: iconHazardIcon
-                x: 225
+                x: 205
                 y: 235
                 width: 50
                 height: 50
@@ -319,8 +333,8 @@ Window {
                 opacity: 0.9
                 //x: 1020
                 y: 110
-                anchors.left: iconLogo.left
-                anchors.leftMargin: 100
+                anchors.right: topbarID.right
+                anchors.rightMargin: 200
 
                 //status: "DANGEROUS"
                 normalSource: "qrc:/icons/icons-right/temp_oil.svg"
@@ -337,12 +351,28 @@ Window {
                 //x: 1020
                 y: 110
                 anchors.left: topbarID.left
-                anchors.leftMargin: 50
+                anchors.leftMargin: 100
 
                 status: "DANGEROUS"
                 normalSource: "qrc:/icons/icons-right/temp_cabin.svg"
                 warningSource: "qrc:/icons/icons-right-checked/temp_cabin_warning.svg"
                 dangerousSource: "qrc:/icons/icons-right-checked/temp_cabin_danger.svg"
+            }
+
+            //đèn báo nguồn điện
+            FunctionIcon{
+                id: batteryIcon
+                // x: 145
+                anchors.right: background.right
+                anchors.rightMargin: 105
+                y: 375
+                width: 50
+                height: 50
+                opacity: 0.9
+
+                iconImageOff: "qrc:/icons/icons-right/mdi_car-battery.svg"
+                iconImageOn: "qrc:/icons/icons-right-checked/mdi_car-battery.svg"
+                checked: false
             }
         }
     }
