@@ -192,7 +192,7 @@ Window {
             //top  bar
             Speedometer{
                 id: topbarID
-                width: 645
+                width: 650
                 height: 80
                 anchors.top: parent.top
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -249,10 +249,10 @@ Window {
             //đèn cos
             FunctionIcon{
                 id: iconLightCosIcon
-                x: 705
-                y: 113
-                width: 40
-                height: 40
+                x: 95
+                y: 375
+                width: 50
+                height: 50
                 opacity: 0.9
 
                 iconImageOff: "qrc:/icons/icons-left/light_cos.svg"
@@ -263,10 +263,10 @@ Window {
             //đèn pha
             FunctionIcon{
                 id: iconLightPhaIcon
-                x: 775
-                y: 110
-                width: 45
-                height: 45
+                x: 165
+                y: 305
+                width: 50
+                height: 50
                 opacity: 0.9
 
                 iconImageOff: "qrc:/icons/icons-left/light_high.svg"
@@ -277,10 +277,10 @@ Window {
             //đèn hazard
             FunctionIcon{
                 id: iconHazardIcon
-                x: 850
-                y: 110
-                width: 45
-                height: 45
+                x: 225
+                y: 235
+                width: 50
+                height: 50
                 opacity: 0.9
 
                 iconImageOff: "qrc:/icons/icons-left/hazard_light.svg"
@@ -312,18 +312,20 @@ Window {
             }
 
             //nhiệt độ nước mát
-            FunctionIcon{
-                id: iconTempOil
-                x: 1170
-                y: 110
+            TempIcon {
+                id: oilTempIcon
                 width: 45
                 height: 45
                 opacity: 0.9
+                //x: 1020
+                y: 110
+                anchors.left: iconLogo.left
+                anchors.leftMargin: 100
 
-                iconImageOff: "qrc:/icons/icons-right/temp_oil.svg"
-                iconImageOn: "qrc:/icons/icons-right-checked/temp_oil_checked.svg"
-                checked: false
-
+                //status: "DANGEROUS"
+                normalSource: "qrc:/icons/icons-right/temp_oil.svg"
+                warningSource: "qrc:/icons/icons-right-checked/temp_oil_warning.svg"
+                dangerousSource: "qrc:/icons/icons-right-checked/temp_oil_danger.svg"
             }
 
             //Nhiệt độ khoang lái
@@ -332,15 +334,16 @@ Window {
                 width: 45
                 height: 45
                 opacity: 0.9
-                x: 1020
+                //x: 1020
                 y: 110
+                anchors.left: topbarID.left
+                anchors.leftMargin: 50
 
                 status: "DANGEROUS"
                 normalSource: "qrc:/icons/icons-right/temp_cabin.svg"
                 warningSource: "qrc:/icons/icons-right-checked/temp_cabin_warning.svg"
                 dangerousSource: "qrc:/icons/icons-right-checked/temp_cabin_danger.svg"
             }
-
         }
     }
 
@@ -381,12 +384,6 @@ Window {
             const cleanMsg = message.trim();
             console.log("SAU TRIM:", JSON.stringify(cleanMsg));
 
-            // Tách dữ liệu
-            // const parts = cleanMsg.split(":");
-            // if (parts.length !== 2) {
-            //     console.log("MESSAGE KHÔNG HỢP LỆ:", cleanMsg);
-            //     return;
-            // }
 
             if (cleanMsg.startsWith("TEMP: ")) {
                 const tempValue = parseFloat(cleanMsg.substring(6)); // Bỏ qua "TEMP: "
@@ -507,5 +504,4 @@ Window {
             }
         }
     }
-
 }

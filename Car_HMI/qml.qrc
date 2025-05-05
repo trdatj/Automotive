@@ -13,7 +13,6 @@
         <file>icons/icons-right-checked/icon-park-solid_right-two.svg</file>
         <file>img/Top Bar.png</file>
         <file>icons/icons-right/temp_oil.svg</file>
-        <file>icons/icons-right-checked/temp_oil_checked.svg</file>
         <file>icons/icons-left-checked/hazard_light_checked.png</file>
         <file>icons/icons-left-checked/mdi_car-light-high-checked.svg</file>
         <file>icons/icons-left/light_high.svg</file>
@@ -32,5 +31,7 @@
         <file>icons/warning_faded.svg</file>
         <file>icons/warning_orange.svg</file>
         <file>icons/warning_red.svg</file>
+        <file>icons/icons-right-checked/temp_oil_danger.svg</file>
+        <file>icons/icons-right-checked/temp_oil_warning.svg</file>
     </qresource>
 </RCC>
