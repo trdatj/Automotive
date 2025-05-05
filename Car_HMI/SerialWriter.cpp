@@ -30,7 +30,10 @@ SerialWriter::~SerialWriter()
 void SerialWriter::sendData(const QString &data)
 {
     if (serialPort->isOpen()) {
-        serialPort->write(data.toUtf8());
+        QByteArray sendData = data.toUtf8();
+        sendData.append('\n');  // Đảm bảo có \n để ESP32 đọc được
+        serialPort->write(sendData);
+        qDebug() << "Đã gửi:" << sendData;
     } else {
         qDebug() << "Cổng serial chưa mở.";
     }

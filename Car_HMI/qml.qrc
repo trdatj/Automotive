@@ -26,12 +26,13 @@
         <file>icons/icons-right/temp_cabin.svg</file>
         <file>icons/icons-right-checked/temp_cabin_danger.svg</file>
         <file>icons/icons-right-checked/temp_cabin_warning.svg</file>
-        <file>icons/left.svg</file>
-        <file>icons/Vector 1.svg</file>
         <file>icons/warning_faded.svg</file>
         <file>icons/warning_orange.svg</file>
         <file>icons/warning_red.svg</file>
         <file>icons/icons-right-checked/temp_oil_danger.svg</file>
         <file>icons/icons-right-checked/temp_oil_warning.svg</file>
+        <file>img/nissan_skyline_gt-r_18337-removebg-preview.png</file>
+        <file>icons/icons-right/mdi_car-battery.svg</file>
+        <file>icons/icons-right-checked/mdi_car-battery.svg</file>
     </qresource>
 </RCC>
