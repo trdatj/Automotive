@@ -1,8 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "SerialReader.h"
-#include "SerialWriter.h"
+// #include "SerialReader.h"
+// #include "SerialWriter.h"
+#include "SerialManager.h"
 #include <QTimer>
 
 #define DEBUG_MODE 0
@@ -17,11 +18,15 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
-    SerialReader serial;
-    engine.rootContext()->setContextProperty("serialReader", &serial);
+    // SerialReader serial;
+    // engine.rootContext()->setContextProperty("serialReader", &serial);
 
-    SerialWriter serialWriter;
-    engine.rootContext()->setContextProperty("serialWriter", &serialWriter);
+    // SerialWriter serialWriter;
+    // engine.rootContext()->setContextProperty("serialWriter", &serialWriter);
+
+    SerialManager serial;
+    engine.rootContext()->setContextProperty("serialManager", &serial);
+    serial.start();  // bắt đầu đọc
 
     QObject::connect(
         &engine,
@@ -33,7 +38,6 @@ int main(int argc, char *argv[])
         },
         Qt::QueuedConnection);
     engine.load(url);
-    serial.start();  // bắt đầu đọc
 
     //kiểm tra việc nhận dữ liệu
 #if DEBUG_MODE

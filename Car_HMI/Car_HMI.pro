@@ -9,6 +9,7 @@ QT += serialport
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        SerialManager.cpp \
         SerialReader.cpp \
         SerialWriter.cpp \
         main.cpp
@@ -32,5 +33,6 @@ DISTFILES += \
     img/Panel.png
 
 HEADERS += \
+    SerialManager.h \
     SerialReader.h \
     SerialWriter.h
