@@ -7,14 +7,20 @@ Window {
     height: 980
     visible: true
     title: qsTr("Nhom 1")
+    property bool showMainContent: false
 
     Item{
         id: content
         width: 1920
         height: 980
-
         anchors.centerIn: parent
         scale: Math.min(root.width / 1920, root.height / 980) // scale toàn bộ nội dung
+        visible: root.showMainContent
+        opacity: root.showMainContent ? 1 : 0
+
+        Behavior on opacity {
+            NumberAnimation { duration: 500; easing.type: Easing.InOutQuad }
+        }
 
         Image {
             id: background
@@ -31,9 +37,7 @@ Window {
                 //anchors.top: parent.top
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.centerIn: parent
-                //anchors.topMargin: 200
             }
-
 
             //Mặt đồng hồ trái
             Speedometer {
@@ -49,59 +53,65 @@ Window {
                 angle: 148
             }
 
-            //Button tăng tốc độ đồng hồ trái
-            Rectangle{
-                id: speedUpButton
-                x: 275
-                y: 800
-                width: 120
+            //Thay đổi tốc độ
+            Image {
+                id: speedControl
+                anchors.bottom: background.bottom
+                anchors.bottomMargin: 100
+                anchors.horizontalCenter: background.horizontalCenter
+                width: 270
                 height: 50
-                color: mouseAreaSpeedUp.containsPress ? "#4CAF50" : "#8BC34A"
-                radius: 5
-                border.color: "#388E3C"
-                border.width: 2
+                //Button tăng tốc độ đồng hồ trái
+                Rectangle{
+                    id: speedUpButton
+                    width: 120
+                    height: 50
+                    color: mouseAreaSpeedUp.containsPress ? "#4CAF50" : "#8BC34A"
+                    radius: 5
+                    border.color: "#388E3C"
+                    border.width: 2
 
-                Text {
-                    text: "Tăng tốc độ"
-                    anchors.centerIn: parent
-                    font.pixelSize: 16
-                    color: "white"
-                }
+                    Text {
+                        text: "Tăng tốc độ"
+                        anchors.centerIn: parent
+                        font.pixelSize: 16
+                        color: "white"
+                    }
 
-                MouseArea {
-                    id: mouseAreaSpeedUp
-                    anchors.fill: parent
-                    onClicked: {
-                        var newAngle = speedometerLeft.angle + 10;
-                        speedometerLeft.angle = Math.min(newAngle, 390);
+                    MouseArea {
+                        id: mouseAreaSpeedUp
+                        anchors.fill: parent
+                        onClicked: {
+                            var newAngle = speedometerLeft.angle + 10;
+                            speedometerLeft.angle = Math.min(newAngle, 390);
+                        }
                     }
                 }
-            }
 
-            Rectangle {
-                id: speedDownButton
-                x: 425
-                y: 800
-                width: 120
-                height: 50
-                color: mouseAreaSpeedDown.containsPress ? "#F44336" : "#FF5722"
-                radius: 5
-                border.color: "#D32F2F"
-                border.width: 2
+                Rectangle {
+                    id: speedDownButton
+                    width: 120
+                    height: 50
+                    x: speedUpButton.width + 30
+                    color: mouseAreaSpeedDown.containsPress ? "#F44336" : "#FF5722"
+                    radius: 5
+                    border.color: "#D32F2F"
+                    border.width: 2
 
-                Text {
-                    text: "Giảm tốc độ"
-                    anchors.centerIn: parent
-                    font.pixelSize: 16
-                    color: "white"
-                }
+                    Text {
+                        text: "Giảm tốc độ"
+                        anchors.centerIn: parent
+                        font.pixelSize: 16
+                        color: "white"
+                    }
 
-                MouseArea {
-                    id: mouseAreaSpeedDown
-                    anchors.fill: parent
-                    onClicked: {
-                        var newAngle = speedometerLeft.angle - 10;
-                        speedometerLeft.angle = Math.max(newAngle, 148);
+                    MouseArea {
+                        id: mouseAreaSpeedDown
+                        anchors.fill: parent
+                        onClicked: {
+                            var newAngle = speedometerLeft.angle - 10;
+                            speedometerLeft.angle = Math.max(newAngle, 148);
+                        }
                     }
                 }
             }
@@ -121,16 +131,12 @@ Window {
                 }
                 width: 60
                 height: 60
-                // anchors.top: topbarID.top
-                // anchors.topMargin: 20
-                // anchors.horizontalCenter: topbarID.horizontalCenter
                 y: 265
                 anchors.right: background.right
                 anchors.rightMargin: 160
                 smooth: true
                 fillMode: Image.PreserveAspectFit
             }
-
 
             //Mặt đồng hồ phải
             Speedometer {
@@ -143,64 +149,7 @@ Window {
 
                 meterImage: "qrc:/img/tachoImg.png"
                 indicatorImage: "qrc:/img/Indicator.png"
-                angle: 150
-            }
-
-            //Button tăng vòng tour máy
-            Rectangle{
-                id: speedUpButton2
-                x: 1375
-                y: 800
-                width: 120
-                height: 50
-                color: mouseAreaSpeedUp2.containsPress ? "#4CAF50" : "#8BC34A"
-                radius: 5
-                border.color: "#388E3C"
-                border.width: 2
-
-                Text {
-                    text: "Tăng tốc độ"
-                    anchors.centerIn: parent
-                    font.pixelSize: 16
-                    color: "white"
-                }
-
-                MouseArea {
-                    id: mouseAreaSpeedUp2
-                    anchors.fill: parent
-                    onClicked: {
-                        var newAngle = speedometerRight.angle + 10;
-                        speedometerRight.angle = Math.min(newAngle, 390);
-                    }
-                }
-            }
-
-            Rectangle {
-                id: speedDownButton2
-                x: 1525
-                y: 800
-                width: 120
-                height: 50
-                color: mouseAreaSpeedDown2.containsPress ? "#F44336" : "#FF5722"
-                radius: 5
-                border.color: "#D32F2F"
-                border.width: 2
-
-                Text {
-                    text: "Giảm tốc độ"
-                    anchors.centerIn: parent
-                    font.pixelSize: 16
-                    color: "white"
-                }
-
-                MouseArea {
-                    id: mouseAreaSpeedDown2
-                    anchors.fill: parent
-                    onClicked: {
-                        var newAngle = speedometerRight.angle - 10;
-                        speedometerRight.angle = Math.max(newAngle, 148);
-                    }
-                }
+                angle: Math.min(390, 148 + (speedometerLeft.angle - 148) * 1.2)
             }
 
             //top  bar
@@ -427,7 +376,6 @@ Window {
                                 blinkTimerRight.start()
                                 serialManager.sendData("TURN_RIGHT:ON")
                             }
-
                             iconHazardIcon.wasLeftBlinkingBeforeHazard = false
                             iconHazardIcon.wasRightBlinkingBeforeHazard = false
                         }
@@ -441,7 +389,6 @@ Window {
                 width: 45
                 height: 45
                 opacity: 0.9
-                //x: 1020
                 y: 110
                 anchors.right: topbarID.right
                 anchors.rightMargin: 200
@@ -458,12 +405,11 @@ Window {
                 width: 45
                 height: 45
                 opacity: 0.9
-                //x: 1020
                 y: 110
                 anchors.left: topbarID.left
                 anchors.leftMargin: 100
 
-                status: "DANGEROUS"
+                //status: "DANGEROUS"
                 normalSource: "qrc:/icons/icons-right/temp_cabin.svg"
                 warningSource: "qrc:/icons/icons-right-checked/temp_cabin_warning.svg"
                 dangerousSource: "qrc:/icons/icons-right-checked/temp_cabin_danger.svg"
@@ -489,6 +435,21 @@ Window {
                 checked: false
             }
         }
+    }
+
+    StartWindows {
+        id: startWindow
+        anchors.fill: parent
+        active: !root.showMainContent
+
+        onStartClicked: {
+            root.showMainContent = true
+        }
+    }
+
+    // Ẩn content ban đầu
+    Component.onCompleted: {
+        showMainContent = false
     }
 
     Timer {
@@ -527,25 +488,6 @@ Window {
 
             const cleanMsg = message.trim();
             console.log("SAU TRIM:", JSON.stringify(cleanMsg));
-
-
-            if (cleanMsg.startsWith("TEMP: ")) {
-                const tempValue = parseFloat(cleanMsg.substring(6)); // Bỏ qua "TEMP: "
-                if (!isNaN(tempValue)) {
-                    console.log("Nhận nhiệt độ số:", tempValue);
-                    cabinTempIcon.temperature = tempValue;
-
-                    // Tự động cập nhật trạng thái dựa trên nhiệt độ
-                    if (tempValue >= 45) {
-                        cabinTempIcon.status = "DANGEROUS";
-                    } else if (tempValue >= 35) {
-                        cabinTempIcon.status = "WARNING";
-                    } else {
-                        cabinTempIcon.status = "NORMAL";
-                    }
-                }
-                return;
-            }
 
             const parts = cleanMsg.split(":");
                 if (parts.length !== 2) {
@@ -623,24 +565,38 @@ Window {
                 }
             break;
 
-            case "TEMP_OIL":
-
-
-            break;
 
             case "TEMP_CABIN":
-                cabinTempIcon.status = status;
-                console.log("Cập nhật trạng thái từ TEMP_CABIN:", status);
+                const cabinTemp = parseFloat(status);
+                if (!isNaN(cabinTemp)) {
+                    cabinTempIcon.temperature = cabinTemp;
+                    console.log("Cập nhật nhiệt độ cabin:", cabinTemp);
 
-                if (status === "WARNING") {
-                    console.log("Cảnh báo: Nhiệt độ khoang xe cao!");
-                } else if (status === "DANGEROUS") {
-                    console.log("CẢNH BÁO NGUY HIỂM: Nhiệt độ khoang xe quá cao!");
-                } else {
-                    console.log("Nhiệt độ khoang xe bình thường.");
+                    if (cabinTemp >= 35) {
+                        cabinTempIcon.status = "DANGEROUS";
+                    } else if (cabinTemp >= 31) {
+                        cabinTempIcon.status = "WARNING";
+                    } else {
+                        cabinTempIcon.status = "NORMAL";
+                    }
                 }
                 break;
 
+            case "TEMP_WATER":
+                const oilTemp = parseFloat(status);
+                if (!isNaN(oilTemp)) {
+                    oilTempIcon.temperature = oilTemp;
+                    console.log("Cập nhật nhiệt độ nước mát:", oilTemp);
+
+                    if (oilTemp >= 60) {
+                        oilTempIcon.status = "DANGEROUS";
+                    } else if (oilTemp >= 50) {
+                        oilTempIcon.status = "WARNING";
+                    } else {
+                        oilTempIcon.status = "NORMAL";
+                    }
+                }
+                break;
 
             default:
                 console.log("Thiết bị không hợp lệ:", device);

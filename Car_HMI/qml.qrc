@@ -34,5 +34,7 @@
         <file>img/nissan_skyline_gt-r_18337-removebg-preview.png</file>
         <file>icons/icons-right/mdi_car-battery.svg</file>
         <file>icons/icons-right-checked/mdi_car-battery.svg</file>
+        <file>StartWindows.qml</file>
+        <file>img/start_btn.png</file>
     </qresource>
 </RCC>
