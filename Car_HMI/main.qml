@@ -312,6 +312,38 @@ Window {
                 }
             }
 
+            //đèn cốp
+            FunctionIcon{
+                id: lightCopIcon
+                anchors.right: background.right
+                anchors.rightMargin: 95
+                y: 375
+                width: 60
+                height: 60
+                opacity: 0.9
+
+                iconImageOff: "qrc:/icons/icons-right/light_tam.svg"
+                iconImageOn: "qrc:/icons/icons-right-checked/den_tam_checked.svg"
+                checked: false
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        lightCopIcon.checked = !lightCopIcon.checked
+
+                        if (lightCopIcon.checked){
+                            console.log("Đèn cốp bật");
+                            lightCopIcon.checked = true
+                            serialManager.sendData("DEN_PHA:ON")
+                        } else {
+                            console.log("Đèn cốp tắt");
+                            lightCopIcon.checked = false
+                            serialManager.sendData("DEN_PHA:OFF")
+                        }
+                    }
+                }
+            }
+
             //đèn hazard
             FunctionIcon{
                 id: iconHazardIcon
@@ -393,7 +425,6 @@ Window {
                 anchors.right: topbarID.right
                 anchors.rightMargin: 200
 
-                //status: "DANGEROUS"
                 normalSource: "qrc:/icons/icons-right/temp_oil.svg"
                 warningSource: "qrc:/icons/icons-right-checked/temp_oil_warning.svg"
                 dangerousSource: "qrc:/icons/icons-right-checked/temp_oil_danger.svg"
@@ -409,7 +440,6 @@ Window {
                 anchors.left: topbarID.left
                 anchors.leftMargin: 100
 
-                //status: "DANGEROUS"
                 normalSource: "qrc:/icons/icons-right/temp_cabin.svg"
                 warningSource: "qrc:/icons/icons-right-checked/temp_cabin_warning.svg"
                 dangerousSource: "qrc:/icons/icons-right-checked/temp_cabin_danger.svg"
@@ -417,22 +447,6 @@ Window {
                 Behavior on opacity {
                     NumberAnimation { duration: 300 }
                 }
-            }
-
-            //đèn báo nguồn điện
-            FunctionIcon{
-                id: batteryIcon
-                // x: 145
-                anchors.right: background.right
-                anchors.rightMargin: 105
-                y: 375
-                width: 50
-                height: 50
-                opacity: 0.9
-
-                iconImageOff: "qrc:/icons/icons-right/mdi_car-battery.svg"
-                iconImageOn: "qrc:/icons/icons-right-checked/mdi_car-battery.svg"
-                checked: false
             }
         }
     }
@@ -552,12 +566,14 @@ Window {
             case "HAZARD":
                 if (status === "ON"){
                     console.log("Đèn hazard bật");
+                    iconHazardIcon.checked = true;
                     turnRightIcon.blinking = true;
                     turnRightIcon.checked = true;
                     turnLeftIcon.blinking = true;
                     turnLeftIcon.checked = true;
                 } else {
                     console.log("Đèn hazard tắt");
+                    iconHazardIcon.checked = false;
                     turnRightIcon.blinking = false;
                     turnRightIcon.checked = false;
                     turnLeftIcon.blinking = false;
@@ -595,6 +611,16 @@ Window {
                     } else {
                         oilTempIcon.status = "NORMAL";
                     }
+                }
+                break;
+
+            case "DEN_COP":
+                if (status === "ON"){
+                    console.log("Đèn cốp bật");
+                    lightCopIcon.checked = true;
+                } else {
+                    console.log("Đèn cốp tắt");
+                    lightCopIcon.checked = false;
                 }
                 break;
 
