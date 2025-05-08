@@ -36,5 +36,7 @@
         <file>icons/icons-right-checked/mdi_car-battery.svg</file>
         <file>StartWindows.qml</file>
         <file>img/start_btn.png</file>
+        <file>icons/icons-right-checked/den_tam_checked.svg</file>
+        <file>icons/icons-right/light_tam.svg</file>
     </qresource>
 </RCC>
