@@ -581,7 +581,6 @@ Window {
                 }
             break;
 
-
             case "TEMP_CABIN":
                 const cabinTemp = parseFloat(status);
                 if (!isNaN(cabinTemp)) {

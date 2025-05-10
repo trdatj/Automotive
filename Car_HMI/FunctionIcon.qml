@@ -35,6 +35,5 @@ Item {
         console.log("[FunctionIcon.qml] Source đang đổi thành", checked ? iconImageOn : iconImageOff);
         iconID.source = checked ? iconImageOn : iconImageOff;
     }
-
 }
 
